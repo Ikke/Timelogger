@@ -1,7 +1,8 @@
 {
     "require": {
         "behat/behat": "2.4.*@stable",
-        "beberlei/assert": "*"
+        "beberlei/assert": "*",
+        "phpspec/phpspec2": "*"
     },
     "minimum-stability": "dev",
     "config": {
@@ -11,7 +12,8 @@
         "psr-0":  {
             "Timelogger": "",
             "Integrator": "",
-            "Entities": ""
+            "Entities": "",
+            "Tools": ""
         }
     }
 }

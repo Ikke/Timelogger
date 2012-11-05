@@ -16,8 +16,14 @@ class LogTime implements \Integrator\UseCase
         $this->entriesRepository = $entriesRepository;
     }
 
-    public function execute(array $request_model)
+    /**
+     * @param \Integrator\Request $request_model
+     * @return void
+     */
+    public function execute(\Integrator\Request $request_model)
     {
+        /** @var $request_model Request\LogTime */
+
         $entry = new Entities\Entry($request_model);
 
         $this->entriesRepository->insert($entry);

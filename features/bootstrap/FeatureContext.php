@@ -20,6 +20,8 @@ use Assert\Assertion;
 //   require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 
+use Timelogger\Request;
+
 /**
  * Features context.
  */
@@ -28,21 +30,8 @@ class FeatureContext extends BehatContext
 
     public $date;
 
-    public $useCase;
-
+    /** @var \Timelogger\Repository_Entries */
     public $repository;
-
-    /**
-     * Initializes context.
-     * Every scenario gets it's own context object.
-     *
-     */
-    public function __construct()
-    {
-        $this->repository = new Timelogger\Repository_Gateway_Memory_Entries();
-        $this->useCase = new Timelogger\LogTime($this->repository);
-    }
-
 
     /**
      * @Given /^I am a developer$/
@@ -74,7 +63,10 @@ class FeatureContext extends BehatContext
             'date'          => $this->date
         );
 
-        $this->useCase->execute($request_model);
+        $this->repository = new Timelogger\Repository_Gateway_Memory_Entries();
+
+        $usecase = new Timelogger\LogTime($this->repository);
+        $usecase->execute(new Request\LogTime($request_model));
     }
 
     /**
@@ -85,10 +77,10 @@ class FeatureContext extends BehatContext
         $expected = $this->_parseTable($table);
 
         $entries = $this->repository->getAll();
-        /** @var $entry Entry */
+        /** @var $entry \Timelogger\Entities\Entry */
         $entry = $entries[0];
 
-        Assertion::same($entry->description, $expected['description']);
+        Assertion::same($entry->description, $expected['description'], "Descriptions are not the same");
     }
 
     public function _parseTable(TableNode $node)

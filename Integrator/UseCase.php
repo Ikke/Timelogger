@@ -9,5 +9,5 @@ namespace Integrator;
 
 interface UseCase
 {
-    public function execute(array $request_model);
+    public function execute(Request $request_model);
 }
